@@ -1,0 +1,74 @@
+* Lecture 6 - more \lambda calculus
+** \lambda-calculus types
+e.g. (\lambda x.x) ((\lambda w.w) y)
+Can be reduced in different ways
+*** Lazy eval - left to right 
+(\lambda w.w) y
+y
+*** Eager eval - always eval args first
+(\lambda x .x) y
+y
+*** Normal order - same as lazy, but does not 'share' multiple instances
+** Type environment
+eg
+
+---------------- id
+H, x : t > x : t
+
+H, x : s > M : t
+--------------------------- abs
+H > \lambda x : s.M : s -> t
+
+H > M : s -> t    H > N : s
+---------------------------- appl 
+H > MN : t
+
+examples
+\lambda f : o -> o. \lambda y : o. fy
+** Context
+Have done this with empty context \empty.
+** Deriving types
+f : o \rarr o, y:o > f :?? *:o \rarr o*     f: o \rarr o, y:o > y  :?? *:o*
+-------------------------------------------------- - expand and break down 
+f : o \rarr o, y : o > fy :?? *:o*
+-----------------------------
+f : o -> o > \lambda y : o. f y :?? *:o \rarr o*
+-----------------------------
+> \lambda f : o -> \lambda y : o. f y :?? *:(o \rarr o) \rarr o \rarr o*
+-----------------------------
+
+hit top - cannot go further so pattern match and propagate down
+** So far we only have the o type
+Call it PCF model language - programmable computing functions
+We are using PCF- because it does not support recursion (Y combinator for later \smiley)
+
+t ::= num | bool | t \rarr t
+M ::= 0 | true | false | 1 | 2 ...
+      succ(M) | zero? (M) | M + M |
+      if M then M else M |
+      x | \lambda x : t.M | MM -- still have basic \lambda{}-calculus
+
+also extend with pairs (M, M), fst(M), snd(M) and t also has t \times t
+
+declarations:
+
+M ::= ... | let d in M
+d ::= x = M | d and d -- note the mutual recursion
+
+C-style syntax is used in other places.
+** Types for new rules
+
+| E entail M => v        |
+|------------------------| where v' = v + 1
+| E entail succ(M) => v' |
+
+V. important: that side condition v' = v + 1 only holds if terms are numbers
+e.g. succ(true) is well-*formed*
+but not well-*typed*
+
+How do we say that an expression is well-typed
+nb > is a triangle
+
+T > M : num
+-----------------
+T > succ(M) : num 

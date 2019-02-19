@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+"http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<!-- 2019-02-19 Tue 15:51 -->
+<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Principles of Programming Languages - Scheme</title>
+<meta name="generator" content="Org mode" />
+<meta name="author" content="William Osborne - u1603746" />
+<style type="text/css">
+ <!--/*--><![CDATA[/*><!--*/
+  .title  { text-align: center;
+             margin-bottom: .2em; }
+  .subtitle { text-align: center;
+              font-size: medium;
+              font-weight: bold;
+              margin-top:0; }
+  .todo   { font-family: monospace; color: red; }
+  .done   { font-family: monospace; color: green; }
+  .priority { font-family: monospace; color: orange; }
+  .tag    { background-color: #eee; font-family: monospace;
+            padding: 2px; font-size: 80%; font-weight: normal; }
+  .timestamp { color: #bebebe; }
+  .timestamp-kwd { color: #5f9ea0; }
+  .org-right  { margin-left: auto; margin-right: 0px;  text-align: right; }
+  .org-left   { margin-left: 0px;  margin-right: auto; text-align: left; }
+  .org-center { margin-left: auto; margin-right: auto; text-align: center; }
+  .underline { text-decoration: underline; }
+  #postamble p, #preamble p { font-size: 90%; margin: .2em; }
+  p.verse { margin-left: 3%; }
+  pre {
+    border: 1px solid #ccc;
+    box-shadow: 3px 3px 3px #eee;
+    padding: 8pt;
+    font-family: monospace;
+    overflow: auto;
+    margin: 1.2em;
+  }
+  pre.src {
+    position: relative;
+    overflow: visible;
+    padding-top: 1.2em;
+  }
+  pre.src:before {
+    display: none;
+    position: absolute;
+    background-color: white;
+    top: -10px;
+    right: 10px;
+    padding: 3px;
+    border: 1px solid black;
+  }
+  pre.src:hover:before { display: inline;}
+  /* Languages per Org manual */
+  pre.src-asymptote:before { content: 'Asymptote'; }
+  pre.src-awk:before { content: 'Awk'; }
+  pre.src-C:before { content: 'C'; }
+  /* pre.src-C++ doesn't work in CSS */
+  pre.src-clojure:before { content: 'Clojure'; }
+  pre.src-css:before { content: 'CSS'; }
+  pre.src-D:before { content: 'D'; }
+  pre.src-ditaa:before { content: 'ditaa'; }
+  pre.src-dot:before { content: 'Graphviz'; }
+  pre.src-calc:before { content: 'Emacs Calc'; }
+  pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+  pre.src-fortran:before { content: 'Fortran'; }
+  pre.src-gnuplot:before { content: 'gnuplot'; }
+  pre.src-haskell:before { content: 'Haskell'; }
+  pre.src-hledger:before { content: 'hledger'; }
+  pre.src-java:before { content: 'Java'; }
+  pre.src-js:before { content: 'Javascript'; }
+  pre.src-latex:before { content: 'LaTeX'; }
+  pre.src-ledger:before { content: 'Ledger'; }
+  pre.src-lisp:before { content: 'Lisp'; }
+  pre.src-lilypond:before { content: 'Lilypond'; }
+  pre.src-lua:before { content: 'Lua'; }
+  pre.src-matlab:before { content: 'MATLAB'; }
+  pre.src-mscgen:before { content: 'Mscgen'; }
+  pre.src-ocaml:before { content: 'Objective Caml'; }
+  pre.src-octave:before { content: 'Octave'; }
+  pre.src-org:before { content: 'Org mode'; }
+  pre.src-oz:before { content: 'OZ'; }
+  pre.src-plantuml:before { content: 'Plantuml'; }
+  pre.src-processing:before { content: 'Processing.js'; }
+  pre.src-python:before { content: 'Python'; }
+  pre.src-R:before { content: 'R'; }
+  pre.src-ruby:before { content: 'Ruby'; }
+  pre.src-sass:before { content: 'Sass'; }
+  pre.src-scheme:before { content: 'Scheme'; }
+  pre.src-screen:before { content: 'Gnu Screen'; }
+  pre.src-sed:before { content: 'Sed'; }
+  pre.src-sh:before { content: 'shell'; }
+  pre.src-sql:before { content: 'SQL'; }
+  pre.src-sqlite:before { content: 'SQLite'; }
+  /* additional languages in org.el's org-babel-load-languages alist */
+  pre.src-forth:before { content: 'Forth'; }
+  pre.src-io:before { content: 'IO'; }
+  pre.src-J:before { content: 'J'; }
+  pre.src-makefile:before { content: 'Makefile'; }
+  pre.src-maxima:before { content: 'Maxima'; }
+  pre.src-perl:before { content: 'Perl'; }
+  pre.src-picolisp:before { content: 'Pico Lisp'; }
+  pre.src-scala:before { content: 'Scala'; }
+  pre.src-shell:before { content: 'Shell Script'; }
+  pre.src-ebnf2ps:before { content: 'ebfn2ps'; }
+  /* additional language identifiers per "defun org-babel-execute"
+       in ob-*.el */
+  pre.src-cpp:before  { content: 'C++'; }
+  pre.src-abc:before  { content: 'ABC'; }
+  pre.src-coq:before  { content: 'Coq'; }
+  pre.src-groovy:before  { content: 'Groovy'; }
+  /* additional language identifiers from org-babel-shell-names in
+     ob-shell.el: ob-shell is the only babel language using a lambda to put
+     the execution function name together. */
+  pre.src-bash:before  { content: 'bash'; }
+  pre.src-csh:before  { content: 'csh'; }
+  pre.src-ash:before  { content: 'ash'; }
+  pre.src-dash:before  { content: 'dash'; }
+  pre.src-ksh:before  { content: 'ksh'; }
+  pre.src-mksh:before  { content: 'mksh'; }
+  pre.src-posh:before  { content: 'posh'; }
+  /* Additional Emacs modes also supported by the LaTeX listings package */
+  pre.src-ada:before { content: 'Ada'; }
+  pre.src-asm:before { content: 'Assembler'; }
+  pre.src-caml:before { content: 'Caml'; }
+  pre.src-delphi:before { content: 'Delphi'; }
+  pre.src-html:before { content: 'HTML'; }
+  pre.src-idl:before { content: 'IDL'; }
+  pre.src-mercury:before { content: 'Mercury'; }
+  pre.src-metapost:before { content: 'MetaPost'; }
+  pre.src-modula-2:before { content: 'Modula-2'; }
+  pre.src-pascal:before { content: 'Pascal'; }
+  pre.src-ps:before { content: 'PostScript'; }
+  pre.src-prolog:before { content: 'Prolog'; }
+  pre.src-simula:before { content: 'Simula'; }
+  pre.src-tcl:before { content: 'tcl'; }
+  pre.src-tex:before { content: 'TeX'; }
+  pre.src-plain-tex:before { content: 'Plain TeX'; }
+  pre.src-verilog:before { content: 'Verilog'; }
+  pre.src-vhdl:before { content: 'VHDL'; }
+  pre.src-xml:before { content: 'XML'; }
+  pre.src-nxml:before { content: 'XML'; }
+  /* add a generic configuration mode; LaTeX export needs an additional
+     (add-to-list 'org-latex-listings-langs '(conf " ")) in .emacs */
+  pre.src-conf:before { content: 'Configuration File'; }
+
+  table { border-collapse:collapse; }
+  caption.t-above { caption-side: top; }
+  caption.t-bottom { caption-side: bottom; }
+  td, th { vertical-align:top;  }
+  th.org-right  { text-align: center;  }
+  th.org-left   { text-align: center;   }
+  th.org-center { text-align: center; }
+  td.org-right  { text-align: right;  }
+  td.org-left   { text-align: left;   }
+  td.org-center { text-align: center; }
+  dt { font-weight: bold; }
+  .footpara { display: inline; }
+  .footdef  { margin-bottom: 1em; }
+  .figure { padding: 1em; }
+  .figure p { text-align: center; }
+  .inlinetask {
+    padding: 10px;
+    border: 2px solid gray;
+    margin: 10px;
+    background: #ffffcc;
+  }
+  #org-div-home-and-up
+   { text-align: right; font-size: 70%; white-space: nowrap; }
+  textarea { overflow-x: auto; }
+  .linenr { font-size: smaller }
+  .code-highlighted { background-color: #ffff00; }
+  .org-info-js_info-navigation { border-style: none; }
+  #org-info-js_console-label
+    { font-size: 10px; font-weight: bold; white-space: nowrap; }
+  .org-info-js_search-highlight
+    { background-color: #ffff00; color: #000000; font-weight: bold; }
+  .org-svg { width: 90%; }
+  /*]]>*/-->
+</style>
+<script type="text/javascript">
+/*
+@licstart  The following is the entire license notice for the
+JavaScript code in this tag.
+
+Copyright (C) 2012-2018 Free Software Foundation, Inc.
+
+The JavaScript code in this tag is free software: you can
+redistribute it and/or modify it under the terms of the GNU
+General Public License (GNU GPL) as published by the Free Software
+Foundation, either version 3 of the License, or (at your option)
+any later version.  The code is distributed WITHOUT ANY WARRANTY;
+without even the implied warranty of MERCHANTABILITY or FITNESS
+FOR A PARTICULAR PURPOSE.  See the GNU GPL for more details.
+
+As additional permission under GNU GPL version 3 section 7, you
+may distribute non-source (e.g., minimized or compacted) forms of
+that code without the copy of the GNU GPL normally required by
+section 4, provided you include this license notice and a URL
+through which recipients can access the Corresponding Source.
+
+
+@licend  The above is the entire license notice
+for the JavaScript code in this tag.
+*/
+<!--/*--><![CDATA[/*><!--*/
+ function CodeHighlightOn(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(null != target) {
+     elem.cacheClassElem = elem.className;
+     elem.cacheClassTarget = target.className;
+     target.className = "code-highlighted";
+     elem.className   = "code-highlighted";
+   }
+ }
+ function CodeHighlightOff(elem, id)
+ {
+   var target = document.getElementById(id);
+   if(elem.cacheClassElem)
+     elem.className = elem.cacheClassElem;
+   if(elem.cacheClassTarget)
+     target.className = elem.cacheClassTarget;
+ }
+/*]]>*///-->
+</script>
+</head>
+<body>
+<div id="content">
+<h1 class="title">Principles of Programming Languages - Scheme</h1>
+
+<div id="outline-container-org6aa551b" class="outline-2">
+<h2 id="org6aa551b"><span class="section-number-2">1</span> Introduction</h2>
+<div class="outline-text-2" id="text-1">
+<p>
+Scheme is a dialect of Lisp, supporting a variety of programming paradigms. It uses Lisp's distinctive fully-parenthesised syntax, giving it the property of homoiconicity. This allows for a powerful syntactic extension system, making the language very expressive. Scheme also provides direct access to continuations as first-class objects, allowing for a wide variety of control structures to be implemented. Both articles to be critiqued focus on the conciseness and expressive power of Scheme. The first paper to be critiqued is the fourth revision of the Scheme language specification, which emphasises a minimal set of powerful language features. The second paper discusses the applications of the continuation system, demonstrating examples of its expressive power.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgd1d1d01" class="outline-2">
+<h2 id="orgd1d1d01"><span class="section-number-2">2</span> Revised<sup>4</sup> Report Language on the Algorithmic Language Scheme</h2>
+<div class="outline-text-2" id="text-2">
+<p>
+The Revised<sup>4</sup> Report on the Algorithmic Language Scheme <a class='org-ref-reference' href="#abelson1991revised">abelson1991revised</a>, widely referred to as R4RS, is the fourth revision of the language specification for Scheme. Its introduction presents a concise overview of the syntax and semantics for the language, as well as detailing common conventions such as indentation style. The main body of the report formally specifies the language in detail, providing a context-free grammar and full denotational semantics for the language. The latest version is R7RS; R4RS was chosen due to its simplicity compared to later versions, and was the first iteration to propose a hygienic macro system.
+</p>
+
+<p>
+Scheme is known for its simplicity, and this is reflected in R4RS. The introduction to R4RS begins with the following quote: "Programming languages should be designed not by piling feature on top of feature, but by removing the weaknesses and restrictions that make additional features appear necessary." R4RS is extremely brief compared to most language specifications - at only 55 pages long, it is shorter than the <i>contents page</i> for the Common Lisp specification. Scheme's core syntax is extremely brief, as its core is a dynamically-typed &lambda;-calculus. An example of this approach is that Scheme lacks any dedicated syntax for loops; instead, it requires any implementation to be properly tail-recursive, so that recursion can be used without accumulating stack frames. 
+</p>
+
+<p>
+R4RS proposes in its appendices an abstraction to a hygienic macro system, <code>define-syntax</code>. Prior to this, the only <i>standard</i> macro facility was similar to the system used in older Lisp langauges. This system defines what are essentially functions with the <code>defmacro</code> keyword. The difference is that instead of executing code, they return unevaluated Lisp code (using the <code>quote</code> special form common to all Lisps). The macros are then expanded at compile-time. This system is more expressive than the convenient but limited <code>syntax-rules</code> system initially proposed by R4RS. Scheme did not catch up until the lower-level <code>syntax-case</code> system was added, as proposed by Hieb, Dybvig and Bruggeman in 1993 <a class='org-ref-reference' href="#dybvig1993syntactic">dybvig1993syntactic</a>. 
+</p>
+
+<p>
+However, Lisp macros have a major downside. Since they works with raw Lisp forms ("S-expressions"), they cannot distinguish between bindings introduced inside and outside the macro and thus do not respect lexical scope. This can cause existing identifiers to be rebound or "shadowed" by a macro, producing serious and elusive bugs. This problem can be avoided by generating new names for identifiers (with the <code>gensym</code> procedure), but requires considerable effort on the part of the programmer. 
+</p>
+
+<p>
+Scheme's macro system as proposed by R4RS is <i>hygienic</i>, which means Scheme macros are guaranteed to preserve existing bindings as part of the macro-expansion process. Scheme macros operate on <i>syntax objects</i> instead of raw S-expressions, which allows their origin to be preserved when transforming the syntax with &alpha;-conversion.
+</p>
+
+<p>
+Major criticisms of R4RS and the Scheme it defines stem from its minimal approach to specification. Several features considered crucial in other languages are deliberately omitted, passing the design work onto the plethora of Scheme implementations. R4RS does not define any kind of module system; indeed, the only provision for multi-file programs is the <code>load</code> function, which simply executes a specified file and loads any new definitions. The result of this is that different implementations tend to have incompatible module systems; modules in Guile Scheme cannot be used in CHICKEN programs, for example. Similarly, very few error handling systems are specified. This is less of an issue, since Scheme's support for continuations allow most of these mechanisms to be implemented in pure Scheme, but it still makes Scheme code less portable between implementations.
+</p>
+
+<p>
+R6RS, published in 2009, attempts to resolve issues with these missing features by including them in the language. However, this has resulted in a huge size increase: by page count R6RS is 340% larger than R5RS. This has drawn widespread criticism and divided the Scheme community. A more successful endeavour to extend the language has been <i>Scheme Requests For Implementation</i>, or SRFIs for short. Each SRFI precisely defines a standard for a language feature, such as hash-tables or a richer standard list library. Implementations can then support whichever SRFIs they deem worth including.
+</p>
+</div>
+</div>
+
+<div id="outline-container-orgf70f400" class="outline-2">
+<h2 id="orgf70f400"><span class="section-number-2">3</span> Applications of Continuations</h2>
+<div class="outline-text-2" id="text-3">
+<p>
+In his paper <i>Applications of Continuations</i> <a class='org-ref-reference' href="#friedman1988applications">friedman1988applications</a>, Friedman introduces the concepts of escape procedures and continuations. An escape procedure returns to the top level after it returns, ignoring the rest of the call stack. Escape continuations are created with the <code>call-with-current-continuation</code> procedure, often abbreviated to <code>call/cc</code>. Friedman introduces the <code>lambda^</code> notation for such procedures and details their semantics. A variety of powerful control structures are then derived to demonstrate the expressive power of first-class continuations, including .
+</p>
+
+<p>
+Scheme's minimal approach to language specification would not be practical if it were only as expressive as larger languages like C++ or even Common Lisp. Support for first-class continuations allows for the implementation of almost any control structure in pure Scheme. Friedman first demonstrates this with the Lisp procedure <code>BREAK</code>, which essentially provides the ability to set breakpoints, pause the code, and resume from the REPL at the programmer's convenience. This functionality is concisely implemented in six lines of Scheme, and demonstrates how Friedman's <code>lambda^</code> notation can be very expressive when used appropriately.
+</p>
+
+<p>
+Friedman then details the implementation of <code>lambda^</code> using an intermediate function, <code>INVOKE/NO-CONT</code>. <code>INVOKE/NO-CONT</code> runs a Scheme function and then returns to the top level, ignoring the existing call stack. This highlights a very powerful detail of Scheme's continuations - that they can be stored as objects, and then activated later in the program, after the creating procedure has terminated.
+</p>
+
+<p>
+Friedman briefly mentions <i>Continuation-Passing Style</i>, an alternative way of writing code commonly used as an Intermediate Representation in the implementation of compilers for functional programming languages <a class='org-ref-reference' href="#steele1978rabbit">steele1978rabbit</a>. In CPS, procedures never return, instead passing their result onto an extra continuation argument. Friedman makes the point that continuations need not be added formally to the language: CPS can be used to achieve the same results. Use of <code>call/cc</code>, however, allows the remainder of the program to be written in the more familiar <i>Direct Style</i>, which is much easier to understand and write.
+</p>
+
+<p>
+A simple example of metaprogramming is provided with the <code>CYCLE</code> function, providing a clear example of continuations being used alongside Scheme code to add new language features. However, it is not a feature that would ever be used in a real Scheme program; adding while loops to a language specifically designed to avoid them is counter-intuitive.
+</p>
+
+<p>
+A major criticism of <i>Applications of Continuations</i> is mostly due to its age: it was first published in 1988. None of the Scheme example code runs without modification or extra setup code in modern implementations. Some of this is due to changes in scoping rules (defining new values with <code>set!</code> is not permitted), while all the macros used in the paper use the archaic <code>extend-syntax</code> function, proposed in 1986 by Kohlbecker <a class='org-ref-reference' href="#Kohlbecker:1986:SEP:19214">Kohlbecker:1986:SEP:19214</a>. The paper was written before the initiial proposal of the modern Scheme macro system, the syntax of which was included as an appendix in R4RS <a class='org-ref-reference' href="#abelson1991revised">abelson1991revised</a> in 1991, and fully detailed by Diebvig, Hieb and Bruggeman<a class='org-ref-reference' href="#dybvig1993syntactic">dybvig1993syntactic</a> in 1993. However, this is not made clear in the article; some reference to the system used would aid the reader significantly in implementing the examples.
+</p>
+
+<p>
+The paper does not discuss the performance implications of code using continuations. Oleg Kiselyov argues that <code>call/cc</code> alone is insufficient: "Offering <code>call/cc</code> as a core control feature in terms of which all other control facilities should be implemented turns out a bad idea. Performance, memory and resource leaks, ease of implementation, ease of use, ease of reasoning all argue against <code>call/cc</code>."<a class='org-ref-reference' href="#Kiselyov:againstcallcc">Kiselyov:againstcallcc</a> He instead promotes the use of <i>delimited</i> continuations, which capture the call stack only up to a certain point. This has several advantages, partly because they allow the continuation to be <i>reified</i> to essentially a function. Additionally, the <code>call/cc</code> function itself can be very expensive, depending on the execution model used by the underlying Scheme implementation. Some discussion of the downsides of continuation-based programming would be useful.
+</p>
+</div>
+</div>
+
+<div id="outline-container-org579dce0" class="outline-2">
+<h2 id="org579dce0"><span class="section-number-2">4</span> Conclusion</h2>
+<div class="outline-text-2" id="text-4">
+<p>
+These articles together provides a substantial introduction to the distinctive features of Scheme. R4RS presents a clear and concise specification of Scheme, offering language features with unmatched expressive power. This presents issues, however; the lack of an official module system or error-handling mechanism reduces the portability of Scheme code. It defines a hygienic macro system, improving on previous Lisps. The new syntax transformers do not entirely replace the existing macro system, since they lack the expressive power of raw procedures; this issue is addressed in later versions of the specification. 
+</p>
+
+<p>
+Applications of Continuations introduces a variety of concepts in continuation-based programming, including escape procedures and Continuation-Passing Style. Friedman implements a wide variety of common control constructs using continuations (including breakpoints and synchonous processes) in order to demonstrate their expressive power. The scope of the article is limited, however, in that it does not discuss the downsides of this approach to programming.
+</p>
+
+
+<p>
+
+<h1 class='org-ref-bib-h1'>Bibliography</h1>
+<ul class='org-ref-bib'><li><a id="abelson1991revised">[abelson1991revised]</a> <a name="abelson1991revised"></a>Abelson, Dybvig, Haynes, Rozas, Adams IV, Friedman, Kohlbecker, Steele Jr, Bartley, Halstead & others, Revised 4 report on the algorithmic language Scheme, <i>ACM SIGPLAN Lisp Pointers</i>, <b>4(3)</b>, 1-55 (1991).</li>
+<li><a id="dybvig1993syntactic">[dybvig1993syntactic]</a> <a name="dybvig1993syntactic"></a>Dybvig, Hieb & Bruggeman, Syntactic abstraction in Scheme, <i>Lisp and symbolic computation</i>, <b>5(4)</b>, 295-326 (1993).</li>
+<li><a id="friedman1988applications">[friedman1988applications]</a> <a name="friedman1988applications"></a>Friedman, Applications of continuations, in in: Proceedings of the ACM Conference on Principles of Programming Languages, edited by (1988)</li>
+<li><a id="steele1978rabbit">[steele1978rabbit]</a> <a name="steele1978rabbit"></a>Steele Jr, Rabbit: A compiler for Scheme, <i></i>,  (1978).</li>
+<li><a id="Kohlbecker:1986:SEP:19214">[Kohlbecker:1986:SEP:19214]</a> <a name="Kohlbecker:1986:SEP:19214"></a>@phdthesisKohlbecker:1986:SEP:19214,
+ author = Kohlbecker, E E,
+ title = Syntactic Extensions in the Programming Language LISP,
+ year = 1986,
+ note = UMI Order No. GAX86-27998,
+ publisher = Indiana University,
+ address = Indianapolis, IN, USA,
+</li>
+<li><a id="Kiselyov:againstcallcc">[Kiselyov:againstcallcc]</a> <a name="Kiselyov:againstcallcc"></a>@miscKiselyov:againstcallcc,
+  author = Kiselyov, O,
+  title = An argument against call/cc,
+  howpublished = \urlhttp://okmij.org/ftp/continuations/against-callcc.html,
+  note = Accessed: 2019-02-13
+</li>
+</ul> 
+</p>
+</div>
+</div>
+<div id="outline-container-org113dbc8" class="outline-2">
+<h2 id="org113dbc8"><span class="section-number-2">5</span> Discussion of Presentations</h2>
+<div class="outline-text-2" id="text-5">
+</div>
+<div id="outline-container-org4695ece" class="outline-3">
+<h3 id="org4695ece"><span class="section-number-3">5.1</span> The History and Semantics of R - Amaris Paryag</h3>
+<div class="outline-text-3" id="text-5-1">
+<p>
+In her presentation Amaris discussed the history of R, with a focus on its semantics and lexical scoping. Tools and R's package system were also described.
+</p>
+
+<p>
+Amaris described the development of R - using semantics and scoping rules derived from Scheme, with syntax similar to the existing statistical language S. Indeed, the point was made that most S code runs unaltered in R. A timeline was used to clearly show the stages of R's conception, and the development of its package sytem. Scheme's semantic model, lexical scope, was explained in detail, using examples to demonstrate the differences between static and lexical scoping.
+</p>
+
+<p>
+One criticism of the presentation was that it did not discuss unique features of R; it primarily focused on the details of its semantics and history. The presentation was not aimed at listeners who were unfamiliar with R; while this is not an issue per se, most listeners in the session will not have used the language before.
+</p>
+</div>
+</div>
+<div id="outline-container-org8e71b25" class="outline-3">
+<h3 id="org8e71b25"><span class="section-number-3">5.2</span> An Introduction to Lua - Jacob Taylor</h3>
+<div class="outline-text-3" id="text-5-2">
+<p>
+Jacob's presentation provided a comprehensive and clear introduction to the Lua language. A variety of programming paradigms were explained, with reference to the article "Programming with Multiple Paradigms in Lua". Finally, more advanced concepts such as coroutines were described.
+</p>
+
+<p>
+After an initial primer on Lua's syntax and single-pass interpreter, Jacob described in detail the expressive power and efficiency of Lua's tables. Object-oriented programming in Lua was introduced, explaining the concept of metatables and introducing colon syntax. Functional programming was detailed with an explanation of Lua's type system, highlighting its support for functions as first-class values.
+</p>
+
+<p>
+Finally, more advanced topics such as coroutines (for co-operative threading) and true parallelism were discussed; the importance of combining Lua with another runtime to "build your own language" was also highlighted. 
+</p>
+
+<p>
+Overall, all the points required to understand Lua were covered clearly and concisely; the strengths of the language and a variety of approaches to using it were both detailed.
+</p>
+</div>
+</div>
+</div>
+</div>
+<div id="postamble" class="status">
+<p class="author">Author: William Osborne - u1603746</p>
+<p class="date">Created: 2019-02-19 Tue 15:51</p>
+<p class="validation"><a href="http://validator.w3.org/check?uri=referer">Validate</a></p>
+</div>
+</body>
+</html>

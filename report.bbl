@@ -1,0 +1,37 @@
+\begin{thebibliography}{1}
+
+\bibitem{abelson1991revised}
+Harold Abelson, RK~Dybvig, CT~Haynes, GJ~Rozas, NI~Adams~IV, DP~Friedman,
+  E~Kohlbecker, GL~Steele~Jr, DH~Bartley, R~Halstead, et~al.
+\newblock Revised 4 report on the algorithmic language scheme.
+\newblock {\em ACM SIGPLAN Lisp Pointers}, 4(3):1--55, 1991.
+
+\bibitem{friedman1988applications}
+Daniel~P Friedman.
+\newblock Applications of continuations.
+\newblock In {\em Proceedings of the ACM Conference on Principles of
+  Programming Languages}, 1988.
+
+\bibitem{steele1978rabbit}
+Guy~L Steele~Jr.
+\newblock Rabbit: A compiler for scheme.
+\newblock 1978.
+
+\bibitem{Kohlbecker:1986:SEP:19214}
+E~E Kohlbecker.
+\newblock {\em Syntactic Extensions in the Programming Language LISP}.
+\newblock PhD thesis, Indianapolis, IN, USA, 1986.
+\newblock UMI Order No. GAX86-27998.
+
+\bibitem{dybvig1993syntactic}
+R~Kent Dybvig, Robert Hieb, and Carl Bruggeman.
+\newblock Syntactic abstraction in scheme.
+\newblock {\em Lisp and symbolic computation}, 5(4):295--326, 1993.
+
+\bibitem{Kiselyov:againstcallcc}
+O~Kiselyov.
+\newblock An argument against call/cc.
+\newblock \url{http://okmij.org/ftp/continuations/against-callcc.html}.
+\newblock Accessed: 2019-02-13.
+
+\end{thebibliography}
